@@ -1,7 +1,7 @@
 hx.utils = (function(){
-    
+
     return {
-        
+
         extend : function(main) {
 
             var i = 1, j,
@@ -17,5 +17,5 @@ hx.utils = (function(){
         }
 
     }
-    
+
 })()
