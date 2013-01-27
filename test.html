@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hx JavaScript Library</title>
+        <meta charset="utf-8"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+        <link  rel="stylesheet"
+               href="http://code.jquery.com/qunit/qunit-1.11.0.css"/>
+        <script>
+
+          $(function(){
+
+            var modules = '_utils binary colour css'.split(' '),
+
+              appendScript = function(source, target, className) {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = source;
+                script.className = className;
+                target.appendChild(script);
+              },
+
+              loadModule = function(module) {
+                delete hx[module];
+                appendScript('src/' + module + '.js?' + $.now(), document.head, 'module');
+              },
+
+              runTest = function(module) {
+                appendScript('tests/' + module + '.js?' + $.now(), document.body, 'test');
+              },
+
+              go = function() {
+                window.hx = {};
+                $.each(modules, function(n, module) { loadModule(module) });
+                $.each(modules, function(n, module) { runTest(module) });
+              }
+              ;
+
+            $('#restartButton').on('click', function() {
+              if(document.location.href.match(/\?./))
+                document.location = '?';
+              $('body script.test, head script.module').remove();
+              QUnit.init();
+              QUnit.start();
+              go();
+            });
+
+            go();
+
+          })
+        </script>
+    </head>
+    <body>
+        <input type='button'
+               value="Restart tests"
+               id="restartButton"
+               style="position: absolute;
+                      right: 10px;
+                      top: 10px;
+                      "/>
+        <h1 id="qunit-header">Hx JavaScript Library Test Suite</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture"></div>
+    </body>
+</html>

@@ -79,7 +79,7 @@ hx.binary = (function(){
 
         // characterPool must be an array with a power-of-two count of characters (2, 4, 8 etc to a max of 256)
         if(!characterPool instanceof Array)
-            return !1;
+            return false;
 
         var log = math.log,
             i = characterPool.length,
@@ -131,7 +131,7 @@ hx.binary = (function(){
                     padding = 0;
 
                 if(blockCount !== floor(blockCount))
-                    return !1;
+                    return false;
 
                 while(encoded.substr(encodedLength - 1 - padding, 1) === paddingCharacter)
                     padding++;
@@ -164,7 +164,7 @@ hx.binary = (function(){
             };
 
         if(bitsPerCharacter > 8 || bitsPerCharacter <= 0 || bitsPerCharacter !== floor(bitsPerCharacter))
-            return !1;
+            return false;
 
         while(charsPerBlock % 8)
             charsPerBlock += bitsPerCharacter;
